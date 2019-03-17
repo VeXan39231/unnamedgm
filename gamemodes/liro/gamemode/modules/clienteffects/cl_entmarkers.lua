@@ -86,17 +86,23 @@ function drawNameOverPlayer()
 
 		if LocalPlayer():GetEyeTrace().Entity == v then
 
-			cam.Start3D2D( v:GetPos(), Angle( 0, LocalPlayer():GetAngles().y - 90, 90 ), 0.1 )
+			local a = LocalPlayer():GetPos()
+			local b = LocalPlayer():GetEyeTrace().Entity:GetPos()
 
-				if v:GetNWBool( "masked" ) then
-					draw.SimpleTextOutlined( "Masked Player", "BebasNeue", 0, -800, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER, nil, 1, Color( 0, 0, 0 ) )
-				else
-					draw.SimpleTextOutlined( v:Nick(), "BebasNeue", 0, -800, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER, nil, 1, Color( 0, 0, 0 ) )
-				end
+			if a:Distance( b ) <= 500 then
 
-				
-				draw.SimpleTextOutlined( getNiceHealth( v ), "BebasNeue", 0, -750, getNiceHealthColor( v ), TEXT_ALIGN_CENTER, nil, 1, Color( 0, 0, 0 ) )
-			cam.End3D2D()
+				cam.Start3D2D( v:GetPos(), Angle( 0, LocalPlayer():GetAngles().y - 90, 90 ), 0.1 )
+
+					if v:GetNWBool( "masked" ) then
+						draw.SimpleTextOutlined( "Masked Player", "BebasNeue", 0, -800, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER, nil, 1, Color( 0, 0, 0 ) )
+					else
+						draw.SimpleTextOutlined( v:Nick(), "BebasNeue", 0, -800, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER, nil, 1, Color( 0, 0, 0 ) )
+					end
+
+					
+					draw.SimpleTextOutlined( getNiceHealth( v ), "BebasNeue", 0, -750, getNiceHealthColor( v ), TEXT_ALIGN_CENTER, nil, 1, Color( 0, 0, 0 ) )
+				cam.End3D2D()
+			end
 		end
 	end
 
