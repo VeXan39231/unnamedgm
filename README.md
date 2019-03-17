@@ -4,3 +4,4 @@
 * Compass that shows the player's direction.
 * Inventory system with many items implemented.
 * Police and Criminal teams
+* TFA Weapons integrated for player use.
