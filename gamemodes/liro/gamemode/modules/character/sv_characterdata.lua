@@ -2,6 +2,9 @@ if SERVER then
 util.AddNetworkString( "invertMask" )
 util.AddNetworkString( "plyMasked" )
 util.AddNetworkString( "plyUnMasked" )
+util.AddNetworkString( "getPlyHelmet" )
+util.AddNetworkString( "sendPlyHelmet" )
+util.AddNetworkString( "setPlyHelmet" )
 end
 
 cdata = {}
@@ -146,5 +149,49 @@ net.Receive( "invertMask", function( len, ply )
 			ply:ChatPrint( "You need a mask in your inventory!" )
 		end
 	end
+
+end )
+
+function cdata.setPlyHelmet( ply, bool )
+
+		ply:SetNWBool( "helmet", bool )
+		if bool then
+			ply:SetNWInt( "hitsLeft", 2 )
+		else
+			ply:SetNWInt( "hitsLeft", 0 )
+		end
+		net.Start( "setPlyHelmet" )
+			net.WriteEntity( ply )
+			net.WriteBool( bool )
+		net.Broadcast()
+
+end
+
+function cdata.getPlyHelmet( ply )
+
+	return ply:GetNWInt( "helmet" )
+
+end
+
+function cdata.setHitsLeft( ply, amt )
+
+	ply:SetNWInt( "hitsLeft", amt )
+
+end
+
+function cdata.getHitsLeft( ply )
+
+	return ply:GetNWInt( "hitsLeft" )
+
+end
+
+net.Receive( "getPlyHelmet", function()
+
+	local ply = net.ReadEntity()
+
+	net.Start( "sendPlyHelmet" )
+		net.WriteEntity( ply )
+		net.WriteBool( ply:GetNWBool( "helmet" ) )
+	net.Broadcast()
 
 end )
