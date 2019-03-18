@@ -5,6 +5,8 @@ util.AddNetworkString( "plyUnMasked" )
 util.AddNetworkString( "getPlyHelmet" )
 util.AddNetworkString( "sendPlyHelmet" )
 util.AddNetworkString( "setPlyHelmet" )
+util.AddNetworkString( "getPlyMoney" )
+util.AddNetworkString( "sendPlyMoney" )
 end
 
 cdata = {}
@@ -104,13 +106,58 @@ function cdata.getPlayerData( ply )
 
 end
 
+function cdata.setMoney( ply, amt )
+
+		cdata.setPlayerData( ply, "money", amt )
+
+	end
+
+function cdata.addMoney( ply, amt )
+
+	local money = cdata.getPlayerData( ply )[1].money
+
+	cdata.setPlayerData( ply, "money", money + amt )
+
+end
+
+function cdata.subMoney( ply, amt )
+
+	local money = cdata.getPlayerData( ply )[1].money
+
+	cdata.setPlayerData( ply, "money", money - amt )
+
+end
+
+function cdata.getPlayerData( ply )
+
+	local id64 = ply:SteamID64()
+	local query = sql.Query( "SELECT * FROM _playerdata WHERE id64='" .. id64 .. "'" )
+
+	return query
+
+end
+
+function cdata.getMoney( ply )
+
+	return tonumber( cdata.getPlayerData( ply )[1].money )
+
+end
+
+net.Receive( "getPlyMoney", function( len, ply )
+
+	local money = cdata.getMoney( ply )
+
+	net.Start( "sendPlyMoney" )
+	net.WriteInt( money, 32 )
+	net.Broadcast()
+
+end )
+
 function cdata.isPlayerMasked( ply )
 
 	return ply:GetNWBool( "masked" )
 
 end
-
-
 
 function cdata.maskPlayer( ply )
 

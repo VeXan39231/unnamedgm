@@ -12,3 +12,8 @@ surface.CreateFont( "BebasNeueSmall", {
 	font = "bebasneue",
 	size = 32
 } )
+
+surface.CreateFont( "BebasNeueMed", {
+	font = "bebasneue",
+	size = 48
+} )
