@@ -16,8 +16,6 @@ function ENT:Initialize()
 
 end
 
-end
-
 net.Receive( "getPlugInfo", function() 
 
 	local plug = net.ReadEntity()
