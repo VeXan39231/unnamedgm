@@ -7,3 +7,9 @@ function showOffHP( ply )
 	end )
 
 end
+
+function getMoney( ply )
+
+	return tonumber( cdata.getPlayerData( ply )[1].money )
+
+end

@@ -1,7 +1,7 @@
 cdata.playerSpawn = {}
 
 cdata.playerSpawn.config = {
-	defaultLoadout = { "weapon_fists", "weapon_empty_hands" }
+	defaultLoadout = { "weapon_physgun", "weapon_physcannon", "weapon_fists", "weapon_empty_hands" }
 	--policeLoadout = { "" }
 }
 

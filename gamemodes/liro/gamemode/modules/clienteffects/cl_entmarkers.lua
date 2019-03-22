@@ -1,9 +1,11 @@
 entmarkers = {}
 
 entmarkers.config = {
-	ents = { "cocaine", "ia_item" },
+	ents = { "cocaine", "ia_item", "money", "outlet", "printer" },
 
 }
+
+local m, c = 0, 0
 
 local healthShit = {
 	{ 100, 91, hString = "Very Healthy", },
@@ -42,9 +44,37 @@ function showEntMarkers()
 						local entName = _v:GetNWString( "ia_Name" )
 						draw.SimpleTextOutlined( entName, "BebasNeue", 0, -120, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER, nil, 1, Color( 0, 0, 0 ) )
 					else
-						draw.SimpleTextOutlined( "yer", "BebasNeue", 0, -120, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER, nil, 1, Color( 0, 0, 0 ) )
+						draw.SimpleTextOutlined( "", "BebasNeue", 0, -120, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER, nil, 1, Color( 0, 0, 0 ) )
 					end
 				cam.End3D2D()
+				if v == "money" then
+					cam.Start3D2D( _v:GetPos() + Vector( 0, 2, 1 ), _v:GetAngles(), 0.065 )
+						draw.SimpleTextOutlined( "$" .. _v:GetNWInt( "amount" ), "BebasNeue", 0, 0, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0 ) )
+					cam.End3D2D()
+				end
+				if v == "outlet" then
+					cam.Start3D2D( _v:GetPos() + Vector( 0, 0, 1 ), _v:GetAngles() + Angle( 0, 90, 90 ), 0.065 )
+						net.Start( "getPlugInfo" )
+							net.WriteEntity( _v )
+						net.SendToServer()
+						net.Receive( "sendPlugInfo", function()
+							m, c = net.ReadInt( 32 ), net.ReadInt( 31 )
+						end )
+						draw.SimpleTextOutlined( "Outlet (" .. c .. "/" .. m .. ")", "BebasNeue", 0, -300, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER, nil, 1, Color( 0, 0, 0 ) )
+					cam.End3D2D()
+				end
+				if v == "printer" then
+					cam.Start3D2D( _v:GetPos(),Angle( 0, LocalPlayer():GetAngles().y - 90, 90 ), 0.065 )
+						net.Start( "getPrinterInfo" )
+							net.WriteEntity( _v )
+						net.SendToServer()
+						net.Receive( "sendPrinterInfo", function()
+							mo = net.ReadInt( 32 )
+						end )
+
+					draw.SimpleTextOutlined( "Money Printer ($" .. mo .. ")", "BebasNeue", 0, -120, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER, nil, 1, Color( 0, 0, 0 ) )
+					cam.End3D2D()
+				end
 			end
 		end
 	end
