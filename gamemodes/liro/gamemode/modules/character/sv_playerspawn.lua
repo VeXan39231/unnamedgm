@@ -23,7 +23,7 @@ function cdata.playerSpawn.setUp( ply )
 	ply:SetModel( data[1].model )
 	ply:SetTeam( 1 )
 
-	--cdata.playerSpawn.spawn( ply )
+	cdata.playerSpawn.spawn( ply )
 
 end
 
@@ -35,8 +35,6 @@ function cdata.playerSpawn.spawn( ply )
 
 	if ply:Team() == 2 then
 		ply:SetModel( "models/player/urban.mdl" )
-	elseif ply:Team() == 0 then
-		ply:SetModel( "models/food/hotdog.mdl" )
 	else
 		ply:SetModel( cdata.getPlayerData( ply )[1].model )
 	end
@@ -44,6 +42,20 @@ function cdata.playerSpawn.spawn( ply )
 	local teamColor = team.GetColor( ply:Team() )
 
 	ply:SetPlayerColor( Vector( teamColor.r / 255, teamColor.g / 255, teamColor.b / 255 ) )
+
+	local fedData = getFedInfo( ply:SteamID64() )
+	local fedSpawn = table.Random( glon.decode( file.Read( "fedspawns.txt" ) ) )
+
+	ply:SetWalkSpeed( 200 )
+	ply:SetRunSpeed( 300 )
+
+	if fedData then
+		ply:SetPos( fedSpawn )
+		ply:StripWeapons()
+		ply:SetPlayerColor( Vector( 255 / 255, 100 / 255, 0 ) )
+		ply:SetWalkSpeed( 125 )
+		ply:SetRunSpeed( 125 )
+	end
 
 end
 
