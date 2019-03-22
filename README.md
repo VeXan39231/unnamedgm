@@ -7,3 +7,4 @@
 * Inventory system with many items implemented
 * Police and Criminal teams
 * TFA Weapons integrated for player use
+* Federal Prison in place of a regular banning system (ULX Compatible)
