@@ -17,5 +17,5 @@ end
 local federal = ulx.command( CATEGORY_NAME, "ulx federal", ulx.federal, "!federal" )
 federal:defaultAccess( ULib.ACCESS_SUPERADMIN )
 federal:addParam{ type=ULib.cmds.PlayersArg }
-federal:addParam{ type=ULib.cmds.NumArg, min=1, max=100, default=604800, hint="time", ULib.cmds.round }
+federal:addParam{ type=ULib.cmds.NumArg, min=1, max=604800, default=60, hint="time", ULib.cmds.round }
 federal:addParam{ type=ULib.cmds.StringArg, hint="reason", ULib.cmds.optional, ULib.cmds.takeRestOfLine }
